@@ -31,20 +31,36 @@ Check that you are running the script in your fresh practice repo (`git-practice
 
 ## Scenarios
 
-| id | goal |
-|---|---|
-| `buttons` | predict and merge three pull requests |
-| `behind` | rebase a branch that is behind and push with a lease |
-| `clash` | resolve a conflict in a merge |
-| `replay` | resolve a conflict in a rebase |
-| `hotfix` | cherry-pick two fix commits |
-| `diverge` | handle a diverged git pull |
-| `oops` | revert and restore commits with git reflog |
-| `stack` | repair a stacked branch after a squash merge |
-| `lease` | push after a teammate pushed first |
-| `backport` | cherry-pick a commit that conflicts |
+Every scenario has its own branches. Switch to the start branch, do the task, then look at the graph with `bash ~/gs/scenarios.sh graph <id>` or `git log --graph --oneline`.
 
-The first seven are built by `setup`. The last three are on demand:
+| id | start on | you practise | pull requests on GitHub |
+|---|---|---|---|
+| `buttons` | `buttons-main` | the three merge buttons: merge commit, squash, rebase; reading the graph each leaves | yes, three |
+| `behind` | `behind-feature` | rebase a branch that is behind; push with a lease | yes |
+| `clash` | `clash-feature` | a conflict in a merge: read the markers, finish the merge | yes |
+| `replay` | `replay-feature` | a conflict in a rebase: resolve, continue, replayed commits get new ids | yes |
+| `hotfix` | `hotfix-release` | cherry-pick: copy two fix commits to a release branch | no |
+| `diverge` | `diverge-main` | `git pull` on a diverged branch: read the message, then choose | no |
+| `oops` | `oops-main` | revert a pushed commit; reset a branch; find lost commits with the reflog | no |
+| `stack` | `stack-b` | a branch built on another branch whose pull request was squashed | yes, two |
+| `lease` | `lease-feature` | a push refused with a lease because a teammate pushed first | no |
+| `backport` | `backport-release` | cherry-pick a commit that conflicts | no |
+
+## Where to practise what
+
+| If you want to understand | Use |
+|---|---|
+| merge versus rebase versus squash, and what a linear history is | `buttons`, then `replay` |
+| why a rebased branch needs a force push, and how to do it safely | `behind`, then `lease` |
+| conflicts: where the markers are and what each side is | `clash` (merge), then `replay` (rebase), then `backport` (cherry-pick) |
+| cherry-pick: when to copy a commit instead of merging a branch | `hotfix`, then `backport` |
+| the "divergent branches" message of `git pull` | `diverge` |
+| undoing things: revert, reset and getting commits back | `oops` |
+| pull requests that depend on each other | `stack` |
+
+If you only have a few minutes, take them in this order: `buttons`, `behind`, `clash`, `replay`, `hotfix`. Repeat any scenario as often as you like with `reset <id>`.
+
+The first seven scenarios are built by `setup`. The last three are on demand:
 
 ```
 bash ~/gs/scenarios.sh add stack
@@ -69,17 +85,19 @@ The script keeps its own notes inside `.git`, so `git status` shows only your ch
 
 ## Tasks
 
-1. Create a new repository with a README, open a Codespace on it and run the scenario script.
-2. Predict, then merge three pull requests with the three merge buttons, and read the graph each leaves.
-3. Rebase a branch that is behind and push it with --force-with-lease.
-4. Resolve a conflict in a merge.
-5. Resolve a conflict in a rebase.
-6. Cherry-pick two commits from hotfix-main onto hotfix-release.
-7. Run git pull on a diverged branch, read what git says, and put your commit on top of the remote.
-8. Revert a bad commit that is already pushed; bring lost commits back with git reflog.
-9. Cherry-pick a commit that conflicts (add the scenario with the script) and resolve the conflict.
-10. Squash-merge a pull request that another pull request is built on (add the scenario with the script), then repair the second branch.
-11. Push a rebase with --force-with-lease after a teammate pushed first (add the scenario with the script).
+Each task names the scenario and the branch to start on. The last line says what you should see when it is done.
+
+1. Create a new repository with a README, open a Codespace on it and run the scenario script. Done when the script ends with a block that says what was built.
+2. Scenario `buttons`: predict, then merge three pull requests with the three merge buttons, and read the graph each leaves. Done when `git log --graph --oneline` on `buttons-main` shows what each button did.
+3. Scenario `behind`, branch `behind-feature`: rebase a branch that is behind and push it with `--force-with-lease`. Done when the log is one straight line and the push went through.
+4. Scenario `clash`, branch `clash-feature`: resolve a conflict in a merge. Done when the merge commit is on top, the file has no markers left and `git status` is clean.
+5. Scenario `replay`, branch `replay-feature`: resolve a conflict in a rebase. Done when no rebase is in progress and the log is one straight line.
+6. Scenario `hotfix`, branch `hotfix-release`: cherry-pick two commits from `hotfix-main`. Done when `bash ~/gs/scenarios.sh graph hotfix` shows two copies on the release line and `hotfix-main` unchanged.
+7. Scenario `diverge`, branch `diverge-main`: run `git pull` on a diverged branch, read what git says, and put your commit on top of the remote. Done when `git status -sb` shows one commit ahead and none behind.
+8. Scenario `oops`, branch `oops-main`: revert a bad commit that is already pushed, then bring lost commits back with the reflog. Done when you can name the commit you went back to.
+9. Scenario `backport` (add it with the script), branch `backport-release`: cherry-pick a commit that conflicts and resolve the conflict. Done when the pick is finished and the file has no markers left.
+10. Scenario `stack` (add it with the script): squash-merge a pull request that another pull request is built on, then repair the second branch. Done when `git log --oneline origin/stack-main..stack-b` lists only the commits of the second branch.
+11. Scenario `lease` (add it with the script), branch `lease-feature`: push a rebase with `--force-with-lease` after a teammate pushed first. Done when your push went through and the teammate's commit is still on the branch.
 
 ## Local mode (no GitHub account needed)
 
