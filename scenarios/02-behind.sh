@@ -4,7 +4,7 @@
 
 build_scenario_behind() {
     # --- behind-main: first commit ---
-    git checkout -b behind-main --quiet
+    git checkout -b behind-main "$BASE_SHA" --quiet
     commit_as "$ALICE_NAME" "$ALICE_EMAIL" 540 \
         "Add header" "header.txt" "header"
     local main_v1

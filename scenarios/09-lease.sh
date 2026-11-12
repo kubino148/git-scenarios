@@ -10,7 +10,7 @@
 
 build_scenario_lease() {
     # --- lease-main: two Alice commits ---
-    git checkout -b lease-main --quiet
+    git checkout -b lease-main "$BASE_SHA" --quiet
     commit_as "$ALICE_NAME" "$ALICE_EMAIL" 2700 \
         "Add notes" "notes.txt" "notes"
     local notes_sha

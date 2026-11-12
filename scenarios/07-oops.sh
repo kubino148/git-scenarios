@@ -3,7 +3,7 @@
 # Sourced by scenarios.sh; defines build_scenario_oops.
 
 build_scenario_oops() {
-    git checkout -b oops-main --quiet
+    git checkout -b oops-main "$BASE_SHA" --quiet
     commit_as "$ALICE_NAME" "$ALICE_EMAIL" 2100 \
         "Add database config" "db.txt" "database = production"
     commit_as "$BOB_NAME" "$BOB_EMAIL" 2160 \

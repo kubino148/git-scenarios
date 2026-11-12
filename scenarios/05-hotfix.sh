@@ -5,7 +5,8 @@
 
 build_scenario_hotfix() {
     # --- shared base commit (Alice) ---
-    git checkout -b hotfix-release --quiet
+    # shellcheck disable=SC2153  # BASE_SHA is set in lib.sh
+    git checkout -b hotfix-release "$BASE_SHA" --quiet
     commit_as "$ALICE_NAME" "$ALICE_EMAIL" 1440 \
         "Add settings file" \
         "title.txt" "title = Tasks" \

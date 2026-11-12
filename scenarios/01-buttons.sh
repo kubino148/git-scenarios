@@ -4,7 +4,7 @@
 
 build_scenario_buttons() {
     # --- buttons-main: two Alice commits ---
-    git checkout -b buttons-main --quiet
+    git checkout -b buttons-main "$BASE_SHA" --quiet
     commit_as "$ALICE_NAME" "$ALICE_EMAIL" 60 \
         "Add project notes" "notes.txt" "project notes"
     commit_as "$ALICE_NAME" "$ALICE_EMAIL" 120 \

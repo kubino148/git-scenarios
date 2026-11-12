@@ -6,7 +6,7 @@
 
 build_scenario_stack() {
     # --- stack-main: Alice's task list ---
-    git checkout -b stack-main --quiet
+    git checkout -b stack-main "$BASE_SHA" --quiet
     commit_as "$ALICE_NAME" "$ALICE_EMAIL" 2400 \
         "Add task list" "tasks.txt" "task list"
     local main_tip

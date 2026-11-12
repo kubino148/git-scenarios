@@ -6,7 +6,7 @@
 
 build_scenario_diverge() {
     # --- diverge-main: three pushed commits ---
-    git checkout -b diverge-main --quiet
+    git checkout -b diverge-main "$BASE_SHA" --quiet
     commit_as "$ALICE_NAME" "$ALICE_EMAIL" 1800 \
         "Add install notes" "install.txt" "install notes"
     commit_as "$ALICE_NAME" "$ALICE_EMAIL" 1860 \

@@ -4,7 +4,8 @@
 
 build_scenario_clash() {
     # --- clash-main: Alice's base commit ---
-    git checkout -b clash-main --quiet
+    # shellcheck disable=SC2153  # BASE_SHA is set in lib.sh
+    git checkout -b clash-main "$BASE_SHA" --quiet
     commit_as "$ALICE_NAME" "$ALICE_EMAIL" 960 \
         "Add server file" "server.txt" "timeout = 10"
     local base_sha

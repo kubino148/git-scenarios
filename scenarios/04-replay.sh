@@ -5,7 +5,8 @@
 
 build_scenario_replay() {
     # --- replay-main: Alice's base with a 3-line menu ---
-    git checkout -b replay-main --quiet
+    # shellcheck disable=SC2153  # BASE_SHA is set in lib.sh
+    git checkout -b replay-main "$BASE_SHA" --quiet
     commit_multiline "$ALICE_NAME" "$ALICE_EMAIL" 1200 \
         "Add menu file" "menu.txt" "Open\nSave\nQuit"
     local base_sha

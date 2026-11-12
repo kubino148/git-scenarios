@@ -8,7 +8,8 @@
 
 build_scenario_backport() {
     # --- shared base commit ---
-    git checkout -b backport-release --quiet
+    # shellcheck disable=SC2153  # BASE_SHA is set in lib.sh
+    git checkout -b backport-release "$BASE_SHA" --quiet
     commit_as "$ALICE_NAME" "$ALICE_EMAIL" 3060 \
         "Add settings" "settings.txt" "timeout = 5"
     local base_sha
